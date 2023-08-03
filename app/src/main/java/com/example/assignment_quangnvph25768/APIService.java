@@ -18,11 +18,10 @@ public interface APIService {
     @GET("planetary/apod")
     Call<List<ImageNasa>> getApodList(
             @Query("api_key") String apiKey,
-            @Query("start_date") String startDate,
-            @Query("end_date") String endDate
+            @Query("start_date") String date
     );
 
-    @POST("upload")
+    @POST("/apod")
     Call<Void> uploadObj(@Body ImageNasa img);
 
 
