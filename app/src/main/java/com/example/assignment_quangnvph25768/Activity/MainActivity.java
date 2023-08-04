@@ -1,7 +1,8 @@
-package com.example.assignment_quangnvph25768;
+package com.example.assignment_quangnvph25768.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.nio.charset.Charset;
@@ -13,6 +14,11 @@ import android.widget.Button;
 import android.util.Base64;
 import android.widget.Toast;
 
+import com.example.assignment_quangnvph25768.API.APIService;
+import com.example.assignment_quangnvph25768.API.RetrofitClient;
+import com.example.assignment_quangnvph25768.R;
+import com.example.assignment_quangnvph25768.model.ImageNasa;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,7 +28,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
-    private static final String GET_LIST_URL = "https://api.nasa.gov/planetary/apod?api_key=KbecYPt80KFOs1SajTAfXlaKiL3KCgB7An2EFnxV&date=2023-07-01";
     private static final String API_KEY = "KbecYPt80KFOs1SajTAfXlaKiL3KCgB7An2EFnxV";
     private static final String BASE_URL = "https://api.nasa.gov/";
     Button btn1, btn2;
@@ -45,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                uploadToSever();
+                Intent i = new Intent(MainActivity.this, ListImageActivity.class);
+                startActivity(i);
             }
         });
 
@@ -66,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
 
                         String date = null;
-                        for (int i = 0; i <= 20; i++) {
-                            date = "2023-06-" + i;
+                        for (int i = 1; i <= 10; i++) {
+                            date = "2023-07-" + i;
 
                         Call<List<ImageNasa>> call1 = apiInterface.getApodList(API_KEY, date);
                         call1.enqueue(new Callback<List<ImageNasa>>() {
@@ -87,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                             String encodedUrl = apacheEncode(apod.getUrl());
                                             apod.setUrl(encodedUrl);
                                             uploadToSever(apod);
+                                            executorService.shutdown();
                                             Log.d("NasaImageActivity", "Date: " + apod.getDate() + ", URL: " + apacheEncode(apod.getUrl()) + "title" + apod.getExplanation());
                                         } catch (Exception e) {
                                             throw new RuntimeException(e);
@@ -104,13 +111,14 @@ public class MainActivity extends AppCompatActivity {
                         });
                         }
                     }
+
                 });
 
     }
 
     public void uploadToSever(ImageNasa apod) {
 
-        APIService apiService = RetrofitClient.getClient("http://192.168.1.23:3000").create(APIService.class);
+        APIService apiService = RetrofitClient.getClient("http://10.24.10.141:3000").create(APIService.class);
         Call<Void> call = apiService.uploadObj(apod);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -133,43 +141,6 @@ public class MainActivity extends AppCompatActivity {
         byte[] decodedByteArr = decodedStr.getBytes(Charset.forName("UTF-8"));
         return Base64.encodeToString(decodedByteArr, 1);
     }
-                    // Lấy danh sách các ảnh từ ngày 2023-06-01 đến ngày 2023-06-15
 
-
-                    // Lấy danh sách các ảnh từ ngày 2023-06-16 đến ngày 2023-06-30
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Call<List<ImageNasa>> call2 = apiInterface.getApodList(API_KEY, "2023-06-16", "2023-06-30");
-//                call2.enqueue(new Callback<List<ImageNasa>>() {
-//                    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-//                    @Override
-//                    public void onResponse(Call<List<ImageNasa>> call, Response<List<ImageNasa>> response) {
-//                        if (response.isSuccessful()) {
-//                            List<ImageNasa> apodList = response.body();
-//                            // Duyệt danh sách các ảnh và làm gì đó với các ảnh
-//                            for (ImageNasa apod : apodList) {
-//
-//                                try {
-//                                    Log.d("NasaImageActivity", "Date: " + apod.getDate() + ", URL: " +apod.getUrl() );
-//                                } catch (Exception e) {
-//                                    throw new RuntimeException(e);
-//                                }
-//
-//
-//                            }
-//                        } else {
-//                            // Handle error
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<List<ImageNasa>> call, Throwable t) {
-//                        t.printStackTrace();
-//                        // Handle error
-//                    }
-//                });
-//            }
-//        }).start();
 
 }

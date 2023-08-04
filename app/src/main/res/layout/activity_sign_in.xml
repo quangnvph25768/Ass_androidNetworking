@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="REGISTER"
+        android:textColor="#FFF598"
+        android:gravity="center"
+        android:layout_marginTop="150dp"
+        android:textSize="50sp"/>
+
+
+    <EditText
+        android:id="@+id/edtEamilRG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:hint="Email"
+        android:padding="10dp"
+        android:textColorHint="#FFFFFF"
+        android:background="@drawable/edittext_background"/>
+
+    <EditText
+        android:id="@+id/edtPassRG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtEamilRG"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:hint="Password"
+        android:padding="10dp"
+        android:textColorHint="#FFFFFF"
+        android:background="@drawable/edittext_background"
+        android:inputType="textPassword"/>
+
+
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtPassRG"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="Register"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:background="@drawable/button_background"/>
+
+</RelativeLayout>

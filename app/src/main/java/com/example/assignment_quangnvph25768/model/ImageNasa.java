@@ -1,10 +1,20 @@
-package com.example.assignment_quangnvph25768;
+package com.example.assignment_quangnvph25768.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
 public class ImageNasa {
+
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @SerializedName("title")
     private String title;

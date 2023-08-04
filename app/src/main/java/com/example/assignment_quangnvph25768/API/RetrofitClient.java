@@ -1,13 +1,8 @@
-package com.example.assignment_quangnvph25768;
+package com.example.assignment_quangnvph25768.API;
 
-import static okhttp3.internal.Internal.instance;
-
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
