@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".Activity.MainActivity"
     android:orientation="vertical">
 
 
@@ -13,11 +13,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/btn_count"
         android:layout_margin="50dp"
-        android:text="GET"/>
+        android:text="GET IMAGE"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:id="@+id/btn_count2"
-        android:text="UPLOAD"/>
+        android:text="LIST"/>
 </LinearLayout>
