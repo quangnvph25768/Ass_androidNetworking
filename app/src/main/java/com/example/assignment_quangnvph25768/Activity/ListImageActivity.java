@@ -43,7 +43,7 @@ public class ListImageActivity extends AppCompatActivity {
     }
 
     public void getImageFormServer(){
-        APIService apiService = RetrofitClient.getClient("http://10.24.10.141:3000").create(APIService.class);
+        APIService apiService = RetrofitClient.getClient("http://192.168.1.23:3000").create(APIService.class);
         Call<List<ImageNasa>> call = apiService.getImageFormServer();
         call.enqueue(new Callback<List<ImageNasa>>() {
             @Override
@@ -151,7 +151,7 @@ public class ListImageActivity extends AppCompatActivity {
     }
 
     private void updateImageInfo(String imageId, String newTitle, String explanation, String copyright) {
-        APIService apiService = RetrofitClient.getClient(" http://10.24.10.141:3000").create(APIService.class);
+        APIService apiService = RetrofitClient.getClient(" http://192.168.1.23:3000").create(APIService.class);
         ImageInfoRequest request = new ImageInfoRequest(newTitle, explanation,copyright);
         Call<ResponseBody> call = apiService.updateImage(imageId, request);
         call.enqueue(new Callback<ResponseBody>() {
@@ -176,7 +176,7 @@ public class ListImageActivity extends AppCompatActivity {
     }
 
     private void deleteImage(String imageId) {
-        APIService apiService = RetrofitClient.getClient(" http://10.24.10.141:3000").create(APIService.class);
+        APIService apiService = RetrofitClient.getClient(" http://192.168.1.23:3000").create(APIService.class);
         Call<ResponseBody> call = apiService.deleteImage(imageId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

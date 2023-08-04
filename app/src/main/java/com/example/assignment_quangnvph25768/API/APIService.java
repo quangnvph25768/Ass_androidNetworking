@@ -18,9 +18,9 @@ import retrofit2.http.Query;
 public interface APIService {
 
     @GET("planetary/apod")
-    Call<List<ImageNasa>> getApodList(
+    Call<ImageNasa> getApodList(
             @Query("api_key") String apiKey,
-            @Query("start_date") String date
+            @Query("date") String date
     );
 
     @POST("/apod")

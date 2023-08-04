@@ -19,6 +19,7 @@ import com.example.assignment_quangnvph25768.API.RetrofitClient;
 import com.example.assignment_quangnvph25768.R;
 import com.example.assignment_quangnvph25768.model.ImageNasa;
 
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -66,59 +67,56 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIService apiInterface = retrofit.create(APIService.class);
-
-                executorService.execute(new Runnable() {
+        for (int i = 1; i <= 10; i++) {
+            final String dayOfMonth = String.valueOf(i);
+            executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-
                         String date = null;
-                        for (int i = 1; i <= 10; i++) {
-                            date = "2023-07-" + i;
 
-                        Call<List<ImageNasa>> call1 = apiInterface.getApodList(API_KEY, date);
-                        call1.enqueue(new Callback<List<ImageNasa>>() {
+                            date = "2023-07-" + dayOfMonth;
+                        Log.d("DATE", "run: "+date);
+                        Call<ImageNasa> call1 = apiInterface.getApodList(API_KEY, date);
+                        call1.enqueue(new Callback<ImageNasa>() {
                             @Override
-                            public void onResponse(Call<List<ImageNasa>> call, Response<List<ImageNasa>> response) {
+                            public void onResponse(Call<ImageNasa> call, Response<ImageNasa> response) {
                                 if (response.isSuccessful()) {
-                                    List<ImageNasa> apodList = response.body();
+                                    ImageNasa apodList = response.body();
 
                                     // Duyệt danh sách các ảnh và làm gì đó với các ảnh
 //
                                     if(apodList!=null){
 
-
-                                        for(ImageNasa apod : apodList){
-
                                         try {
-                                            String encodedUrl = apacheEncode(apod.getUrl());
-                                            apod.setUrl(encodedUrl);
-                                            uploadToSever(apod);
-                                            executorService.shutdown();
-                                            Log.d("NasaImageActivity", "Date: " + apod.getDate() + ", URL: " + apacheEncode(apod.getUrl()) + "title" + apod.getExplanation());
+                                            String encodedUrl = apacheEncode(apodList.getUrl());
+                                            apodList.setUrl(encodedUrl);
+                                            uploadToSever(apodList);
+                                            Log.d("NasaImageActivity", "Date: " + apodList.getDate() + ", URL: " + apacheEncode(apodList.getUrl()) + "title" + apodList.getCopyright());
+
+
                                         } catch (Exception e) {
                                             throw new RuntimeException(e);
                                         }
                                     }
-                                    }
+
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<List<ImageNasa>> call, Throwable t) {
+                            public void onFailure(Call<ImageNasa> call, Throwable t) {
 
                             }
 
                         });
                         }
-                    }
-
                 });
-
+            executorService.shutdown();
+        }
     }
 
     public void uploadToSever(ImageNasa apod) {
 
-        APIService apiService = RetrofitClient.getClient("http://10.24.10.141:3000").create(APIService.class);
+        APIService apiService = RetrofitClient.getClient("http://192.168.1.23:3000").create(APIService.class);
         Call<Void> call = apiService.uploadObj(apod);
         call.enqueue(new Callback<Void>() {
             @Override
